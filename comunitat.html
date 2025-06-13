@@ -98,6 +98,9 @@
     <p>&copy; 2025 CraftMySkin – Made with ❤️ for Minecraft players</p>
   </footer>
 
+  
+</html>
+
   <script>
     const emeraldsSpan = document.getElementById("emeralds");
     const dailyBtn = document.getElementById("dailyBtn");
@@ -108,9 +111,10 @@
     const today = new Date().toDateString();
     let emeralds = parseInt(localStorage.getItem("emeralds")) || 0;
     let lastClaim = localStorage.getItem("lastDaily") || "";
+    let lastChestOpen = parseInt(localStorage.getItem("lastChestTime")) || 0;
 
     function updateEmeralds() {
-      emeraldsSpan.textContent = emeralds;
+      emeraldsSpan.textContent = emeralds + " 💎";
       localStorage.setItem("emeralds", emeralds);
     }
 
@@ -126,23 +130,44 @@
     }
 
     function setupChestGrid() {
+      const now = Date.now();
+      const canOpen = (now - lastChestOpen) > 86400000; // 24h
       chestGrid.innerHTML = "";
       for (let i = 0; i < 9; i++) {
         const cofre = document.createElement("div");
         cofre.className = "cofre";
         cofre.textContent = "❓";
-        cofre.onclick = () => openChest(cofre);
+        if (canOpen) {
+          cofre.onclick = () => openChest(cofre);
+        } else {
+          cofre.classList.add("disabled");
+        }
         chestGrid.appendChild(cofre);
       }
     }
 
     function openChest(element) {
-      const rewards = ["x2", "x3", "x5", "VIP", "Discord", "💨", "💨", "💨", "💨"];
+      const rewards = ["x5", "x3", "x2", "x2", "💨", "💨", "💨", "💨", "💨"];
       const reward = rewards[Math.floor(Math.random() * rewards.length)];
       element.textContent = reward;
       element.classList.add("disabled");
       chestGrid.querySelectorAll(".cofre").forEach(c => c.classList.add("disabled"));
-      chestResult.innerHTML = `<p>You got: <strong>${reward}</strong>!</p>`;
+      lastChestOpen = Date.now();
+      localStorage.setItem("lastChestTime", lastChestOpen);
+
+      let extra = 0;
+      if (reward === "x5") extra = 5;
+      else if (reward === "x3") extra = 3;
+      else if (reward === "x2") extra = 2;
+      else extra = 0;
+
+      if (extra > 0) {
+        emeralds += 5 * extra;
+        updateEmeralds();
+        chestResult.innerHTML = `<p>You got: <strong>${reward}</strong>! 💥 +${5 * extra} emeralds!</p>`;
+      } else {
+        chestResult.innerHTML = `<p>You opened the chest and found... air 💨</p>`;
+      }
     }
 
     function buyItem(type) {
