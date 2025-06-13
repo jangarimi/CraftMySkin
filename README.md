@@ -14,6 +14,4 @@ A bilingual web app that lets you generate Minecraft skins from photos using AI 
 
 ## 🚀 Live Demo
 
-👉 Visit the website: [https://jangarimi.github.io/CraftMySkin/](https://jangarimi.github.io/CraftMySkin/)
 
-## 📁 Project Structure
