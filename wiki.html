@@ -8,21 +8,23 @@
   <script src="script.js" defer></script>
   <style>
     .wiki {
-      background-color: #2c2c2c;
       padding: 2em;
-      border-radius: 8px;
-      color: #e0e0e0;
+      max-width: 900px;
+      margin: auto;
+      color: #eee;
     }
     .wiki input {
-      padding: 0.5em;
       width: 100%;
+      padding: 0.8em;
       margin-bottom: 1em;
-      font-family: inherit;
+      border-radius: 5px;
+      border: none;
     }
-    .wiki-entry {
+    .entry {
       margin-bottom: 1em;
-      border-left: 4px solid #4caf50;
-      padding-left: 1em;
+      padding: 1em;
+      background-color: #3a3a3a;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -34,12 +36,13 @@
         <li><a href="index.html" data-i18n="home">Home</a></li>
         <li><a href="skins.html" data-i18n="skins">Skin Generator</a></li>
         <li><a href="vip.html" data-i18n="vip">VIP Server</a></li>
-        <li><a href="comunitat.html" data-i18n="community">Community</a></li>
+        <li><a href="comunitat.html" data-i18n="familycraft">FamilyCraft</a></li>
         <li><a href="wiki.html" data-i18n="wiki">Wiki</a></li>
         <li>
           <select id="languageSelector">
             <option value="en">EN</option>
             <option value="es">ES</option>
+            <option value="ca">CA</option>
           </select>
         </li>
       </ul>
@@ -48,12 +51,14 @@
 
   <main>
     <section class="wiki">
-      <h1 data-i18n="wiki">Wiki / Help Center</h1>
-      <input type="text" id="searchInput" placeholder="Search how to..." />
-      <div id="results">
-        <div class="wiki-entry"><strong>How to change your Minecraft skin?</strong><br>Go to minecraft.net, log in, and upload the new skin file from your profile settings.</div>
-        <div class="wiki-entry"><strong>How to join a Minecraft server?</strong><br>Open Minecraft, click on “Multiplayer”, then “Add Server”, and enter the server address provided.</div>
-        <div class="wiki-entry"><strong>How to create a server?</strong><br>You can use Minecraft server software or third-party hosting services. We recommend starting with PaperMC or a trusted host.</div>
+      <h1 data-i18n="wikiTitle">📚 CraftMySkin Wiki</h1>
+      <input type="text" id="searchInput" placeholder="🔍 Search..." />
+
+      <div id="entries">
+        <div class="entry"><strong>How to install a Minecraft skin</strong><br/>Go to minecraft.net → Profile → Select Skin File.</div>
+        <div class="entry"><strong>Com obtenir esmeraldes</strong><br/>Recull la recompensa diària des de FamilyCraft.</div>
+        <div class="entry"><strong>¿Cómo acceder al servidor VIP?</strong><br/>Acumula 100 esmeraldas y canjéalas en FamilyCraft.</div>
+        <div class="entry"><strong>Using Discord with CraftMySkin</strong><br/>Buy Discord access in the shop (10 emeralds).</div>
       </div>
     </section>
   </main>
@@ -63,14 +68,13 @@
   </footer>
 
   <script>
-    const input = document.getElementById('searchInput');
-    const entries = document.querySelectorAll('.wiki-entry');
+    const searchInput = document.getElementById("searchInput");
+    const entries = document.querySelectorAll(".entry");
 
-    input.addEventListener('input', function () {
-      const filter = input.value.toLowerCase();
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
       entries.forEach(entry => {
-        const text = entry.textContent.toLowerCase();
-        entry.style.display = text.includes(filter) ? 'block' : 'none';
+        entry.style.display = entry.textContent.toLowerCase().includes(term) ? "block" : "none";
       });
     });
   </script>
